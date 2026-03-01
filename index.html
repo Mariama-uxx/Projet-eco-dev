@@ -1,969 +1,1020 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quand la richesse naturelle ne suffit pas</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f6f2e9;
-      --bg-soft:#ebe7dd;
-      --green:#173d34;
-      --green-2:#2f5f53;
-      --text:#22312d;
-      --muted:#5a6b66;
-      --line:rgba(23,61,52,.14);
-      --card:#ffffff;
-      --shadow:0 20px 50px rgba(20,40,34,.08);
-    }
-
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:"Inter", sans-serif;
-      line-height:1.7;
-    }
-
-    img{max-width:100%;display:block}
-    .container{width:min(1120px, 90vw); margin:0 auto}
-
-    .hero{
-      position:relative;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-      background:
-        linear-gradient(rgba(16,39,34,.56), rgba(16,39,34,.56)),
-        url("images/hero-mine.jpg") center/cover no-repeat;
-      color:#fff;
-      text-align:center;
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0 0;
-      height:140px;
-      background:linear-gradient(to bottom, rgba(246,242,233,0), var(--bg));
-    }
-
-    .hero-inner{
-      position:relative;
-      z-index:2;
-      width:min(920px, 88vw);
-      padding:40px 0;
-      animation:fadeUp 1.1s ease both;
-    }
-
-    .eyebrow{
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      font-size:.8rem;
-      opacity:.92;
-      margin-bottom:14px;
-    }
-
-    h1,h2,h3{
-      margin:0 0 16px;
-      font-family:"Playfair Display", serif;
-      line-height:1.12;
-      color:var(--green);
-    }
-
-    .hero h1{
-      color:#fff;
-      font-size:clamp(2.4rem, 7vw, 5.4rem);
-      margin-bottom:18px;
-    }
-
-    .hero p{
-      margin:0 auto;
-      max-width:760px;
-      font-size:clamp(1rem, 2vw, 1.22rem);
-      opacity:.95;
-    }
-
-    .scroll-cue{
-      margin-top:34px;
-      font-size:.95rem;
-      opacity:.9;
-      animation:bounce 2s infinite;
-    }
-
-    .section{
-      padding:96px 0;
-      position:relative;
-    }
-
-    .section.alt{background:var(--bg-soft)}
-
-    .lead{
-      font-size:1.08rem;
-      color:var(--muted);
-      max-width:780px;
-    }
-
-    .big-stat-wrap{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-      margin-top:30px;
-    }
-
-    .big-stat{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:30px;
-      box-shadow:var(--shadow);
-      transform:translateY(20px);
-      opacity:0;
-      transition:.8s ease;
-    }
-
-    .big-stat.visible{transform:none; opacity:1}
-
-    .big-stat .num{
-      font-size:clamp(2.2rem, 5vw, 4rem);
-      font-weight:700;
-      color:var(--green);
-      line-height:1;
-      margin-bottom:8px;
-    }
-
-    .big-stat .label{
-      color:var(--muted);
-      font-size:1rem;
-    }
-
-    .split{
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:42px;
-      align-items:center;
-    }
-
-    .media-card{
-      background:var(--card);
-      border-radius:26px;
-      padding:14px;
-      box-shadow:var(--shadow);
-      border:1px solid var(--line);
-      overflow:hidden;
-    }
-
-    .media-card img{
-      border-radius:18px;
-      width:100%;
-      height:auto;
-    }
-
-    .caption{
-      margin-top:12px;
-      color:var(--muted);
-      font-size:.9rem;
-    }
-
-    .cropped-map-frame{
-      width:100%;
-      height:390px;
-      overflow:hidden;
-      border-radius:18px;
-      background:#fff;
-    }
-
-    .cropped-map-img{
-      width:108%;
-      max-width:none;
-      margin-left:-2%;
-      margin-top:-1%;
-      margin-bottom:-3%;
-    }
-
-    .sticky-story{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:30px;
-      align-items:start;
-    }
-
-    .sticky-visual{
-      position:sticky;
-      top:24px;
-    }
-
-    .story-steps{
-      display:grid;
-      gap:20px;
-    }
-
-    .step{
-      background:rgba(255,255,255,.82);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
-      backdrop-filter:blur(4px);
-      transition:.35s ease;
-    }
-
-    .step.active{
-      border-color:rgba(23,61,52,.32);
-      box-shadow:0 18px 35px rgba(20,40,34,.08);
-      transform:translateY(-2px);
-    }
-
-    .step h3{
-      font-size:1.16rem;
-      margin-bottom:8px;
-    }
-
-    .step p{
-      margin:0;
-      color:var(--muted);
-      font-size:.98rem;
-    }
-
-    .visual-frame{
-      background:var(--card);
-      border-radius:28px;
-      padding:16px;
-      box-shadow:var(--shadow);
-      border:1px solid var(--line);
-      min-height:430px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .visual-frame img{
-      width:100%;
-      border-radius:18px;
-      max-height:520px;
-      object-fit:contain;
-      background:#fff;
-    }
-
-    .visual-title{
-      font-weight:700;
-      color:var(--green);
-    }
-
-    .visual-note{
-      color:var(--muted);
-      font-size:.95rem;
-    }
-
-    .value-chain-card{
-      background: linear-gradient(180deg, #fcfbf7 0%, #f7f3ea 100%);
-      border: 1px solid rgba(23,61,52,0.10);
-      border-radius: 22px;
-      padding: 24px;
-    }
-
-    .value-chain-title{
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: 18px;
-      font-size: 1rem;
-    }
-
-    .value-chain-flow{
-      display: flex;
-      align-items: stretch;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .value-box{
-      flex: 1 1 140px;
-      min-width: 130px;
-      background: #ffffff;
-      border: 1px solid rgba(23,61,52,0.10);
-      border-radius: 18px;
-      padding: 18px 14px;
-      text-align: center;
-      box-shadow: 0 10px 24px rgba(20,40,34,0.05);
-    }
-
-    .value-icon{
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-    }
-
-    .value-label{
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-
-    .value-sub{
-      font-size: 0.86rem;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .value-arrow{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: var(--green-2);
-      font-weight: 700;
-      padding: 0 2px;
-    }
-
-    .contrast-band{
-      padding:110px 0;
-      background:
-        linear-gradient(90deg, rgba(23,61,52,.92) 0 50%, rgba(246,242,233,1) 50% 100%);
-    }
-
-    .contrast-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      min-height:520px;
-      border-radius:30px;
-      overflow:hidden;
-      box-shadow:var(--shadow);
-    }
-
-    .contrast-left, .contrast-right{
-      padding:46px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-
-    .contrast-left{
-      color:#fff;
-      background:
-        linear-gradient(rgba(23,61,52,.68), rgba(23,61,52,.68)),
-        url("images/mine-logistics.jpg") center/cover no-repeat;
-    }
-
-    .contrast-left h2{color:#fff}
-    .contrast-left p{color:rgba(255,255,255,.92)}
-
-    .contrast-right{
-      background:#f8f6f0;
-      color:var(--text);
-    }
-
-    .contrast-right h2{color:var(--green)}
-
-    .contrast-right .portrait{
-      margin-top:18px;
-      border-radius:22px;
-      overflow:hidden;
-      border:1px solid var(--line);
-    }
-
-    .quote{
-      margin-top:18px;
-      padding-left:18px;
-      border-left:3px solid rgba(255,255,255,.45);
-      font-size:1.03rem;
-      opacity:.95;
-    }
-
-    .impact-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-      margin-top:28px;
-    }
-
-    .impact-card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      transform:translateY(20px);
-      opacity:0;
-      transition:.8s ease;
-    }
-
-    .impact-card.visible{transform:none; opacity:1}
-
-    .impact-card h3{
-      font-size:1.12rem;
-      margin-bottom:10px;
-    }
-
-    .impact-card ul{
-      margin:0;
-      padding-left:18px;
-      color:var(--muted);
-    }
-
-    .externality-figure{
-      position: relative;
-      padding: 18px 18px 26px 8px;
-      max-width: 760px;
-    }
-
-    .externality-bg-layer{
-      position: absolute;
-      inset: 26px 0 0 26px;
-      border-radius: 26px;
-      background: linear-gradient(145deg, rgba(47,95,83,0.14), rgba(23,61,52,0.05));
-      box-shadow: 0 18px 40px rgba(20,40,34,0.08);
-      transform: rotate(1.2deg);
-      z-index: 0;
-    }
-
-    .externality-card{
-      position: relative;
-      z-index: 1;
-      background: #ffffff;
-      border: 1px solid rgba(23,61,52,0.10);
-      border-radius: 26px;
-      padding: 16px;
-      box-shadow: 0 22px 48px rgba(20,40,34,0.10);
-      transform: rotate(-1deg);
-      transition: transform 0.45s ease, box-shadow 0.45s ease;
-    }
-
-    .externality-card:hover{
-      transform: rotate(0deg) translateY(-4px) scale(1.01);
-      box-shadow: 0 28px 56px rgba(20,40,34,0.14);
-    }
-
-    .externality-img{
-      width: 100%;
-      display: block;
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .externality-caption{
-      margin-top: 14px;
-      max-width: 720px;
-    }
-
-    .full-bleed{
-      min-height:72vh;
-      display:grid;
-      place-items:center;
-      text-align:center;
-      color:#fff;
-      background:
-        linear-gradient(rgba(23,61,52,.62), rgba(23,61,52,.62)),
-        url("images/portrait-community.jpg") center/cover no-repeat;
-    }
-
-    .full-bleed .inner{
-      width:min(860px, 88vw);
-      animation:fadeUp 1s ease both;
-    }
-
-    .full-bleed h2{
-      color:#fff;
-      font-size:clamp(2rem, 5vw, 4rem);
-    }
-
-    .full-bleed p{
-      max-width:760px;
-      margin:0 auto;
-      color:rgba(255,255,255,.94);
-      font-size:1.08rem;
-    }
-
-    .footer{
-      padding:68px 0 90px;
-      text-align:center;
-      color:var(--muted);
-      font-size:.95rem;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(26px);
-      transition:opacity .9s ease, transform .9s ease;
-    }
-
-    .reveal.visible{
-      opacity:1;
-      transform:none;
-    }
-
-    @keyframes fadeUp{
-      from{opacity:0; transform:translateY(28px)}
-      to{opacity:1; transform:none}
-    }
-
-    @keyframes bounce{
-      0%,20%,50%,80%,100%{transform:translateY(0)}
-      40%{transform:translateY(8px)}
-      60%{transform:translateY(4px)}
-    }
-
-    @media (max-width: 960px){
-      .split,
-      .sticky-story,
-      .big-stat-wrap,
-      .impact-grid,
-      .contrast-grid{
-        grid-template-columns:1fr;
-      }
-
-      .value-chain-flow{
-        flex-direction: column;
-      }
-
-      .value-arrow{
-        transform: rotate(90deg);
-        margin: -2px 0;
-      }
-
-      .contrast-band{
-        background:var(--bg-soft);
-      }
-
-      .sticky-visual{
-        position:relative;
-        top:auto;
-      }
-
-      .externality-figure{
-        padding: 10px 10px 18px 4px;
-      }
-
-      .externality-bg-layer{
-        inset: 18px 0 0 16px;
-      }
-
-      .externality-card{
-        transform: none;
-      }
-
-      .externality-card:hover{
-        transform: translateY(-2px);
-      }
-
-      .section{padding:72px 0}
-    }
-    .portrait{
-  max-width: 500px;
-  margin-top: 18px;
-}
-
-.portrait video{
-  width: 100%;
-  max-height: 300px;
-  display: block;
-  border-radius: 22px;
-  object-fit: cover;
-}
-.externality-split{
-  display: grid;
-  grid-template-columns: minmax(320px, 520px) 1fr;
-  gap: 56px;
-  align-items: start;
-}
-
-.externality-left,
-.externality-right{
-  align-self: start;
-}
-
-.externality-right{
-  padding-top: 6px;
-}
-
-.externality-card-clean{
-  width: 100%;
-  max-width: 520px;
-  background: #ffffff;
-  border: 1px solid rgba(23,61,52,0.10);
-  border-radius: 22px;
-  padding: 14px;
-  box-shadow: 0 14px 30px rgba(20,40,34,0.08);
-}
-
-.externality-summary-card{
-  background:#fcfcfb;
-  border:1px solid rgba(23,61,52,0.08);
-  border-radius:20px;
-  padding:22px;
-}
-
-.summary-title{
-  font-weight:700;
-  color:var(--green);
-  margin-bottom:14px;
-  font-size:1rem;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-.summary-quote{
-  font-family:"Playfair Display", serif;
-  font-size:1.1rem;
-  line-height:1.45;
-  color:var(--green);
-  margin-bottom:16px;
-  padding-left:14px;
-  border-left:3px solid rgba(47,95,83,0.18);
-}
-
-.externality-summary-card ul{
-  margin:0;
-  padding-left:20px;
-  color:var(--muted);
-}
-
-.externality-summary-card li + li{
-  margin-top:8px;
-}
-
-@media (max-width: 960px){
-  .externality-split{
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .externality-card-clean{
-    max-width: 100%;
-  }
-}
-.summary-note{
-  margin-top: 16px;
-  color: var(--muted);
-  font-size: .96rem;
-  line-height: 1.6;
-  max-width: 36ch;
-}
-  </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Quand la richesse naturelle ne suffit pas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@600;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f6f2e9;
+            --bg-soft: #ebe7dd;
+            --green: #173d34;
+            --green-2: #2f5f53;
+            --text: #22312d;
+            --muted: #5a6b66;
+            --line: rgba(23, 61, 52, .14);
+            --card: #ffffff;
+            --shadow: 0 20px 50px rgba(20, 40, 34, .08);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            line-height: 1.7;
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        .container {
+            width: min(1120px, 90vw);
+            margin: 0 auto
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: linear-gradient(rgba(16, 39, 34, .56), rgba(16, 39, 34, .56)),
+            url("images/hero-mine.jpg") center/cover no-repeat;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 140px;
+            background: linear-gradient(to bottom, rgba(246, 242, 233, 0), var(--bg));
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            width: min(920px, 88vw);
+            padding: 40px 0;
+            animation: fadeUp 1.1s ease both;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: .16em;
+            font-size: .8rem;
+            opacity: .92;
+            margin-bottom: 14px;
+        }
+
+        h1, h2, h3 {
+            margin: 0 0 16px;
+            font-family: "Playfair Display", serif;
+            line-height: 1.12;
+            color: var(--green);
+        }
+
+        .hero h1 {
+            color: #fff;
+            font-size: clamp(2.4rem, 7vw, 5.4rem);
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 760px;
+            font-size: clamp(1rem, 2vw, 1.22rem);
+            opacity: .95;
+        }
+
+        .scroll-cue {
+            margin-top: 34px;
+            font-size: .95rem;
+            opacity: .9;
+            animation: bounce 2s infinite;
+        }
+
+        .section {
+            padding: 96px 0;
+            position: relative;
+        }
+
+        .section.alt {
+            background: var(--bg-soft)
+        }
+
+        .lead {
+            font-size: 1.08rem;
+            color: var(--muted);
+            max-width: 780px;
+        }
+
+        .big-stat-wrap {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .big-stat {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: .8s ease;
+        }
+
+        .big-stat.visible {
+            transform: none;
+            opacity: 1
+        }
+
+        .big-stat .num {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--green);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .big-stat .label {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns:1.05fr .95fr;
+            gap: 42px;
+            align-items: center;
+        }
+
+        .media-card {
+            background: var(--card);
+            border-radius: 26px;
+            padding: 14px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .media-card img {
+            border-radius: 18px;
+            width: 100%;
+            height: auto;
+        }
+
+        .caption {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        .cropped-map-frame {
+            width: 100%;
+            height: 390px;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #fff;
+        }
+
+        .cropped-map-img {
+            width: 108%;
+            max-width: none;
+            margin-left: -2%;
+            margin-top: -1%;
+            margin-bottom: -3%;
+        }
+
+        .sticky-story {
+            display: grid;
+            grid-template-columns:1.15fr .85fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .sticky-visual {
+            position: sticky;
+            top: 24px;
+        }
+
+        .story-steps {
+            display: grid;
+            gap: 20px;
+        }
+
+        .step {
+            background: rgba(255, 255, 255, .82);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 22px;
+            backdrop-filter: blur(4px);
+            transition: .35s ease;
+        }
+
+        .step.active {
+            border-color: rgba(23, 61, 52, .32);
+            box-shadow: 0 18px 35px rgba(20, 40, 34, .08);
+            transform: translateY(-2px);
+        }
+
+        .step h3 {
+            font-size: 1.16rem;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .98rem;
+        }
+
+        .visual-frame {
+            background: var(--card);
+            border-radius: 28px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--line);
+            min-height: 430px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .visual-frame img {
+            width: 100%;
+            border-radius: 18px;
+            max-height: 520px;
+            object-fit: contain;
+            background: #fff;
+        }
+
+        .visual-title {
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .visual-note {
+            color: var(--muted);
+            font-size: .95rem;
+        }
+
+        .value-chain-card {
+            background: linear-gradient(180deg, #fcfbf7 0%, #f7f3ea 100%);
+            border: 1px solid rgba(23, 61, 52, 0.10);
+            border-radius: 22px;
+            padding: 24px;
+        }
+
+        .value-chain-title {
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 18px;
+            font-size: 1rem;
+        }
+
+        .value-chain-flow {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .value-box {
+            flex: 1 1 140px;
+            min-width: 130px;
+            background: #ffffff;
+            border: 1px solid rgba(23, 61, 52, 0.10);
+            border-radius: 18px;
+            padding: 18px 14px;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(20, 40, 34, 0.05);
+        }
+
+        .value-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .value-label {
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .value-sub {
+            font-size: 0.86rem;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .value-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--green-2);
+            font-weight: 700;
+            padding: 0 2px;
+        }
+
+        .contrast-band {
+            padding: 110px 0;
+            background: linear-gradient(90deg, rgba(23, 61, 52, .92) 0 50%, rgba(246, 242, 233, 1) 50% 100%);
+        }
+
+        .contrast-grid {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            min-height: 520px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .contrast-left, .contrast-right {
+            padding: 46px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contrast-left {
+            color: #fff;
+            background: linear-gradient(rgba(23, 61, 52, .68), rgba(23, 61, 52, .68)),
+            url("images/mine-logistics.jpg") center/cover no-repeat;
+        }
+
+        .contrast-left h2 {
+            color: #fff
+        }
+
+        .contrast-left p {
+            color: rgba(255, 255, 255, .92)
+        }
+
+        .contrast-right {
+            background: #f8f6f0;
+            color: var(--text);
+        }
+
+        .contrast-right h2 {
+            color: var(--green)
+        }
+
+        .contrast-right .portrait {
+            margin-top: 18px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+        }
+
+        .quote {
+            margin-top: 18px;
+            padding-left: 18px;
+            border-left: 3px solid rgba(255, 255, 255, .45);
+            font-size: 1.03rem;
+            opacity: .95;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .impact-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: .8s ease;
+        }
+
+        .impact-card.visible {
+            transform: none;
+            opacity: 1
+        }
+
+        .impact-card h3 {
+            font-size: 1.12rem;
+            margin-bottom: 10px;
+        }
+
+        .impact-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+        }
+
+        .externality-figure {
+            position: relative;
+            padding: 18px 18px 26px 8px;
+            max-width: 760px;
+        }
+
+        .externality-bg-layer {
+            position: absolute;
+            inset: 26px 0 0 26px;
+            border-radius: 26px;
+            background: linear-gradient(145deg, rgba(47, 95, 83, 0.14), rgba(23, 61, 52, 0.05));
+            box-shadow: 0 18px 40px rgba(20, 40, 34, 0.08);
+            transform: rotate(1.2deg);
+            z-index: 0;
+        }
+
+        .externality-card {
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+            border: 1px solid rgba(23, 61, 52, 0.10);
+            border-radius: 26px;
+            padding: 16px;
+            box-shadow: 0 22px 48px rgba(20, 40, 34, 0.10);
+            transform: rotate(-1deg);
+            transition: transform 0.45s ease, box-shadow 0.45s ease;
+        }
+
+        .externality-card:hover {
+            transform: rotate(0deg) translateY(-4px) scale(1.01);
+            box-shadow: 0 28px 56px rgba(20, 40, 34, 0.14);
+        }
+
+        .externality-img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .externality-caption {
+            margin-top: 14px;
+            max-width: 720px;
+        }
+
+        .full-bleed {
+            min-height: 72vh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(rgba(23, 61, 52, .62), rgba(23, 61, 52, .62)),
+            url("images/portrait-community.jpg") center/cover no-repeat;
+        }
+
+        .full-bleed .inner {
+            width: min(860px, 88vw);
+            animation: fadeUp 1s ease both;
+        }
+
+        .full-bleed h2 {
+            color: #fff;
+            font-size: clamp(2rem, 5vw, 4rem);
+        }
+
+        .full-bleed p {
+            max-width: 760px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, .94);
+            font-size: 1.08rem;
+        }
+
+        .footer {
+            padding: 68px 0 90px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .95rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .9s ease, transform .9s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px)
+            }
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0)
+            }
+            40% {
+                transform: translateY(8px)
+            }
+            60% {
+                transform: translateY(4px)
+            }
+        }
+
+        @media (max-width: 960px) {
+            .split,
+            .sticky-story,
+            .big-stat-wrap,
+            .impact-grid,
+            .contrast-grid {
+                grid-template-columns:1fr;
+            }
+
+            .value-chain-flow {
+                flex-direction: column;
+            }
+
+            .value-arrow {
+                transform: rotate(90deg);
+                margin: -2px 0;
+            }
+
+            .contrast-band {
+                background: var(--bg-soft);
+            }
+
+            .sticky-visual {
+                position: relative;
+                top: auto;
+            }
+
+            .externality-figure {
+                padding: 10px 10px 18px 4px;
+            }
+
+            .externality-bg-layer {
+                inset: 18px 0 0 16px;
+            }
+
+            .externality-card {
+                transform: none;
+            }
+
+            .externality-card:hover {
+                transform: translateY(-2px);
+            }
+
+            .section {
+                padding: 72px 0
+            }
+        }
+
+        .portrait {
+            max-width: 500px;
+            margin-top: 18px;
+        }
+
+        .portrait video {
+            width: 100%;
+            max-height: 300px;
+            display: block;
+            border-radius: 22px;
+            object-fit: cover;
+        }
+
+        .externality-split {
+            display: grid;
+            grid-template-columns: minmax(320px, 520px) 1fr;
+            gap: 56px;
+            align-items: start;
+        }
+
+        .externality-left,
+        .externality-right {
+            align-self: start;
+        }
+
+        .externality-right {
+            padding-top: 6px;
+        }
+
+        .externality-card-clean {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            border: 1px solid rgba(23, 61, 52, 0.10);
+            border-radius: 22px;
+            padding: 14px;
+            box-shadow: 0 14px 30px rgba(20, 40, 34, 0.08);
+        }
+
+        .externality-summary-card {
+            background: #fcfcfb;
+            border: 1px solid rgba(23, 61, 52, 0.08);
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        .summary-title {
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 14px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .summary-quote {
+            font-family: "Playfair Display", serif;
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: var(--green);
+            margin-bottom: 16px;
+            padding-left: 14px;
+            border-left: 3px solid rgba(47, 95, 83, 0.18);
+        }
+
+        .externality-summary-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--muted);
+        }
+
+        .externality-summary-card li + li {
+            margin-top: 8px;
+        }
+
+        @media (max-width: 960px) {
+            .externality-split {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .externality-card-clean {
+                max-width: 100%;
+            }
+        }
+
+        .summary-note {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: .96rem;
+            line-height: 1.6;
+            max-width: 36ch;
+        }
+    </style>
 </head>
 <body>
 
-  <header class="hero">
+<header class="hero">
     <div class="hero-inner">
-      <div class="eyebrow">Mission fictive · Diagnostic d’un modèle de développement</div>
-      <h1>Quand la richesse naturelle ne suffit pas</h1>
-      <p>
-        Une réflexion visuelle sur un point simple :
-        une ressource stratégique ne produit pas automatiquement un développement durable
-        si le projet qui l’entoure est mal conçu.
-      </p>
-      <div class="scroll-cue">↓ défiler pour commencer</div>
+        <div class="eyebrow">Mission fictive · Diagnostic d’un modèle de développement</div>
+        <h1>Quand la richesse naturelle ne suffit pas</h1>
+        <p>
+            Une réflexion visuelle sur un point simple :
+            une ressource stratégique ne produit pas automatiquement un développement durable
+            si le projet qui l’entoure est mal conçu.
+        </p>
+        <div class="scroll-cue">↓ défiler pour commencer</div>
     </div>
-  </header>
+</header>
 
-  <section class="section">
+<section class="section">
     <div class="container">
-      <div class="reveal">
-        <div class="eyebrow">Le point de départ</div>
-        <h2>Une croissance visible, un impact plus incertain</h2>
-        <p class="lead">
-          Mon travail part d’un constat : l’exploitation de la bauxite, un minerai à l’origine de l’aluminium 
-          s’accélère fortement. Pourtant, la hausse de l’activité économique ne se traduit pas automatiquement
-          par une amélioration durable des conditions de vie.
-        </p>
-        <p class="lead">
-          Ce décalage m’a amenée à déplacer la question :
-          le problème n’est pas seulement la ressource exploitée, mais la manière dont le projet
-          est conçu, piloté et évalué.
-        </p>
-      </div>
+        <div class="reveal">
+            <div class="eyebrow">Le point de départ</div>
+            <h2>Une croissance visible, un impact plus incertain</h2>
+            <p class="lead">
+                Mon travail part d’un constat : l’exploitation de la bauxite, un minerai à l’origine de l’aluminium
+                s’accélère fortement. Pourtant, la hausse de l’activité économique ne se traduit pas automatiquement
+                par une amélioration durable des conditions de vie.
+            </p>
+            <p class="lead">
+                Ce décalage m’a amenée à déplacer la question :
+                le problème n’est pas seulement la ressource exploitée, mais la manière dont le projet
+                est conçu, piloté et évalué.
+            </p>
+        </div>
 
-      <div class="big-stat-wrap">
-        <div class="big-stat reveal">
-          <div class="num">1ᵉ</div>
-          <div class="label">La République de Guinée figure parmi les grands exportateurs mondiaux de bauxite</div>
+        <div class="big-stat-wrap">
+            <div class="big-stat reveal">
+                <div class="num">1ᵉ</div>
+                <div class="label">La République de Guinée figure parmi les grands exportateurs mondiaux de bauxite
+                </div>
+            </div>
+            <div class="big-stat reveal">
+                <div class="num">43,7% à 50%</div>
+                <div class="label">de la population vit en dessous du seuil de pauvreté monétaire, avec une intensité de
+                    pauvreté multidimensionnelle (IPM) atteignant 56,4%. La pauvreté rurale est bien plus sévère que
+                    l'urbaine, dépassant 75% dans certaines zones, avec des privations majeures en éducation et santé.
+                </div>
+            </div>
         </div>
-        <div class="big-stat reveal">
-          <div class="num">43,7% à 50%</div>
-          <div class="label">de la population vit en dessous du seuil de pauvreté monétaire, avec une intensité de pauvreté multidimensionnelle (IPM) atteignant 56,4%. La pauvreté rurale est bien plus sévère que l'urbaine, dépassant 75% dans certaines zones, avec des privations majeures en éducation et santé.</div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <section class="section alt">
+<section class="section alt">
     <div class="container split">
-      <div class="reveal">
-        <div class="eyebrow">Le territoire</div>
-        <h2>Des sites miniers au cœur du récit</h2>
-        <p>
-          Cette carte ouvre l’analyse par le terrain. Elle montre où se concentrent les sites miniers
-          et les zones d’exploitation, et situe immédiatement le lecteur dans l’espace concret du projet.
-        </p>
-        <p>
-          Dans ce récit, elle sert de point d’entrée : avant les chiffres, il y a un territoire,
-          des activités extractives, et des communautés qui vivent à proximité de ces dynamiques.
-        </p>
-      </div>
-
-      <div class="media-card reveal">
-        <div class="cropped-map-frame">
-          <img src="images/mine-sites-map.png" alt="Carte des sites miniers" class="cropped-map-img">
+        <div class="reveal">
+            <div class="eyebrow">Le territoire</div>
+            <h2>Des sites miniers au cœur du récit</h2>
+            <p>
+                Cette carte ouvre l’analyse par le terrain. Elle montre où se concentrent les sites miniers
+                et les zones d’exploitation, et situe immédiatement le lecteur dans l’espace concret du projet.
+            </p>
+            <p>
+                Dans ce récit, elle sert de point d’entrée : avant les chiffres, il y a un territoire,
+                des activités extractives, et des communautés qui vivent à proximité de ces dynamiques.
+            </p>
         </div>
-        <div class="caption">Carte des sites miniers : point de départ du diagnostic territorial.</div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section">
+        <div class="media-card reveal">
+            <div class="cropped-map-frame">
+                <img src="images/mine-sites-map.png" alt="Carte des sites miniers" class="cropped-map-img">
+            </div>
+            <div class="caption">Carte des sites miniers : point de départ du diagnostic territorial.</div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
     <div class="container split">
-      <div class="reveal">
-        <div class="eyebrow">Pourquoi cette ressource compte</div>
-        <h2>De la bauxite à l’aluminium</h2>
-        <p>
-          La bauxite est le principal minerai utilisé pour produire l’aluminium.
-          Or, l’aluminium est un matériau stratégique dans les infrastructures modernes :
-          réseaux électriques, transport, construction et équipements industriels. Ces infrastructures peuvent servir de pont vers le développement durable, car elles soutiennent la croissance économique, facilitent l’accès aux services essentiels et contribuent, lorsqu’elles sont bien intégrées, à l’amélioration des conditions de vie.
-        </p>
-        
-        <p>
-          C’est précisément pour cette raison qu’elle pose une question centrale :
-          comment exploiter une ressource utile au développement sans produire,
-          en parallèle, des effets qui freinent ce même développement ?
-        </p>
-      </div>
+        <div class="reveal">
+            <div class="eyebrow">Pourquoi cette ressource compte</div>
+            <h2>De la bauxite à l’aluminium</h2>
+            <p>
+                La bauxite est le principal minerai utilisé pour produire l’aluminium.
+                Or, l’aluminium est un matériau stratégique dans les infrastructures modernes :
+                réseaux électriques, transport, construction et équipements industriels. Ces infrastructures peuvent
+                servir de pont vers le développement durable, car elles soutiennent la croissance économique, facilitent
+                l’accès aux services essentiels et contribuent, lorsqu’elles sont bien intégrées, à l’amélioration des
+                conditions de vie.
+            </p>
 
-      <div class="media-card reveal">
-        <div class="value-chain-card">
-          <div class="value-chain-title">Chaîne de valeur simplifiée</div>
-
-          <div class="value-chain-flow">
-            <div class="value-box">
-              <div class="value-icon">⛏️</div>
-              <div class="value-label">Bauxite</div>
-              <div class="value-sub">Minerai extrait</div>
-            </div>
-
-            <div class="value-arrow">→</div>
-
-            <div class="value-box">
-              <div class="value-icon">🏭</div>
-              <div class="value-label">Alumine</div>
-              <div class="value-sub">Transformation intermédiaire</div>
-            </div>
-
-            <div class="value-arrow">→</div>
-
-            <div class="value-box">
-              <div class="value-icon">🔩</div>
-              <div class="value-label">Aluminium</div>
-              <div class="value-sub">Matériau stratégique</div>
-            </div>
-
-            <div class="value-arrow">→</div>
-
-            <div class="value-box">
-              <div class="value-icon">⚡</div>
-              <div class="value-label">Infrastructures</div>
-              <div class="value-sub">Réseaux, transport, construction</div>
-            </div>
-          </div>
+            <p>
+                C’est précisément pour cette raison qu’elle pose une question centrale :
+                comment exploiter une ressource utile au développement sans produire,
+                en parallèle, des effets qui freinent ce même développement ?
+            </p>
         </div>
 
-        <div class="caption">
-          La bauxite ne produit pas directement de l’énergie, mais elle entre dans la fabrication de l’aluminium,
-          matériau central dans de nombreuses infrastructures modernes.
+        <div class="media-card reveal">
+            <div class="value-chain-card">
+                <div class="value-chain-title">Chaîne de valeur simplifiée</div>
+
+                <div class="value-chain-flow">
+                    <div class="value-box">
+                        <div class="value-icon">⛏️</div>
+                        <div class="value-label">Bauxite</div>
+                        <div class="value-sub">Minerai extrait</div>
+                    </div>
+
+                    <div class="value-arrow">→</div>
+
+                    <div class="value-box">
+                        <div class="value-icon">🏭</div>
+                        <div class="value-label">Alumine</div>
+                        <div class="value-sub">Transformation intermédiaire</div>
+                    </div>
+
+                    <div class="value-arrow">→</div>
+
+                    <div class="value-box">
+                        <div class="value-icon">🔩</div>
+                        <div class="value-label">Aluminium</div>
+                        <div class="value-sub">Matériau stratégique</div>
+                    </div>
+
+                    <div class="value-arrow">→</div>
+
+                    <div class="value-box">
+                        <div class="value-icon">⚡</div>
+                        <div class="value-label">Infrastructures</div>
+                        <div class="value-sub">Réseaux, transport, construction</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="caption">
+                La bauxite ne produit pas directement de l’énergie, mais elle entre dans la fabrication de l’aluminium,
+                matériau central dans de nombreuses infrastructures modernes.
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <section class="section">
+<section class="section">
     <div class="container sticky-story">
-      <div class="sticky-visual reveal">
-        <div class="visual-frame">
-          <div class="visual-title" id="visualTitle">Phase 1 · Une performance économique apparente</div>
-          <img id="storyImage" src="images/production-exports.png" alt="Visuel narratif">
-          <div class="visual-note" id="visualNote">
-            La hausse des volumes de production et d’exportation suggère d’abord un modèle économiquement performant.
-          </div>
-        </div>
-      </div>
-
-      <div class="story-steps">
-        <div class="step active"
-             data-img="images/production-exports.png"
-             data-title="Phase 1 · Une performance économique apparente"
-             data-note="La hausse des volumes de production et d’exportation suggère d’abord un modèle économiquement performant.">
-          <h3>1. La croissance est visible</h3>
-          <p>
-            Ce graphique montre une progression marquée de la production et des exportations.
-            Pris seul, il raconte une histoire de croissance, de capacité productive et de puissance économique.
-          </p>
+        <div class="sticky-visual reveal">
+            <div class="visual-frame">
+                <div class="visual-title" id="visualTitle">Phase 1 · Une performance économique apparente</div>
+                <img id="storyImage" src="images/production-exports.png" alt="Visuel narratif">
+                <div class="visual-note" id="visualNote">
+                    La hausse des volumes de production et d’exportation suggère d’abord un modèle économiquement
+                    performant.
+                </div>
+            </div>
         </div>
 
-        <div class="step"
-             data-img="images/allocation-table.png"
-             data-title="Phase 2 · La promesse de développement"
-             data-note="Le tableau matérialise la logique de redistribution : la croissance est supposée soutenir les collectivités.">
-          <h3>2. Le projet promet de redistribuer</h3>
-          <p>
-            Le tableau de répartition traduit une intention classique du développement :
-            transformer l’activité économique en bénéfices pour les territoires et les populations.
-          </p>
-        </div>
+        <div class="story-steps">
+            <div class="step active"
+                 data-img="images/production-exports.png"
+                 data-title="Phase 1 · Une performance économique apparente"
+                 data-note="La hausse des volumes de production et d’exportation suggère d’abord un modèle économiquement performant.">
+                <h3>1. La croissance est visible</h3>
+                <p>
+                    Ce graphique montre une progression marquée de la production et des exportations.
+                    Pris seul, il raconte une histoire de croissance, de capacité productive et de puissance économique.
+                </p>
+            </div>
 
-        <div class="step"
-             data-img="images/poverty-map.png"
-             data-title="Phase 3 · Le contraste social"
-             data-note="La carte fait apparaître le décalage : malgré la dynamique extractive, la vulnérabilité sociale demeure élevée.">
-          <h3>3. Le contraste devient visible</h3>
-          <p>
-            Ici, la carte de pauvreté change le sens du récit.
-            Elle montre que la performance économique ne suffit pas, à elle seule, à produire une amélioration durable du niveau de vie.
-          </p>
-        </div>
+            <div class="step"
+                 data-img="images/allocation-table.png"
+                 data-title="Phase 2 · La promesse de développement"
+                 data-note="Le tableau matérialise la logique de redistribution : la croissance est supposée soutenir les collectivités.">
+                <h3>2. Le projet promet de redistribuer</h3>
+                <p>
+                    Le tableau de répartition traduit une intention classique du développement :
+                    transformer l’activité économique en bénéfices pour les territoires et les populations.
+                </p>
+            </div>
 
-        <div class="step"
-             data-img="images/externality-graph.png"
-             data-title="Phase 4 · Le problème est aussi méthodologique"
-             data-note="Le schéma d’externalité donne la clé : si les coûts sociaux et environnementaux sont mal intégrés, le modèle devient fragile.">
-          <h3>4. Le cœur du problème : la méthode</h3>
-          <p>
-            Le diagnostic économique montre que l’enjeu n’est pas uniquement extractif.
-            Lorsqu’un projet est conçu principalement autour de la production,
-            sans intégration suffisante des coûts sociaux et environnementaux,
-            il peut compromettre les objectifs qu’il prétend servir.
-          </p>
+            <div class="step"
+                 data-img="images/poverty-map.png"
+                 data-title="Phase 3 · Le contraste social"
+                 data-note="La carte fait apparaître le décalage : malgré la dynamique extractive, la vulnérabilité sociale demeure élevée.">
+                <h3>3. Le contraste devient visible</h3>
+                <p>
+                    Ici, la carte de pauvreté change le sens du récit.
+                    Elle montre que la performance économique ne suffit pas, à elle seule, à produire une amélioration
+                    durable du niveau de vie.
+                </p>
+            </div>
+
+            <div class="step"
+                 data-img="images/externality-graph.png"
+                 data-title="Phase 4 · Le problème est aussi méthodologique"
+                 data-note="Le schéma d’externalité donne la clé : si les coûts sociaux et environnementaux sont mal intégrés, le modèle devient fragile.">
+                <h3>4. Le cœur du problème : la méthode</h3>
+                <p>
+                    Le diagnostic économique montre que l’enjeu n’est pas uniquement extractif.
+                    Lorsqu’un projet est conçu principalement autour de la production,
+                    sans intégration suffisante des coûts sociaux et environnementaux,
+                    il peut compromettre les objectifs qu’il prétend servir.
+                </p>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <section class="contrast-band">
+<section class="contrast-band">
     <div class="container">
-      <div class="contrast-grid reveal">
-        <div class="contrast-left">
-          <div class="eyebrow">Ce que le projet met en avant</div>
-          <h2>Le site minier</h2>
-          <p>
-            Le projet affiche des signes visibles de performance :
-            volumes, infrastructures, flux logistiques, investissements.
-          </p>
-          <div class="quote">
-            Vu depuis les seuls indicateurs de production, le modèle peut paraître solide.
-          </div>
-        </div>
+        <div class="contrast-grid reveal">
+            <div class="contrast-left">
+                <div class="eyebrow">Ce que le projet met en avant</div>
+                <h2>Le site minier</h2>
+                <p>
+                    Le projet affiche des signes visibles de performance :
+                    volumes, infrastructures, flux logistiques, investissements.
+                </p>
+                <div class="quote">
+                    Vu depuis les seuls indicateurs de production, le modèle peut paraître solide.
+                </div>
+            </div>
 
-        <div class="contrast-right">
-          <div class="eyebrow">Ce que les habitants subissent</div>
-          <h2>Les communautés</h2>
-          <p>
-            Mais le développement se mesure aussi à travers les conditions de vie.
-            Lorsque les externalités sont mal gérées, ce sont les populations locales qui en absorbent le coût.
-          </p>
-          <div class="portrait">
-            <video autoplay muted loop playsinline>
-              <source src="images/community-life.mov" type="video/quicktime">
-              Votre navigateur ne prend pas en charge la vidéo.
-            </video>
-          </div>
+            <div class="contrast-right">
+                <div class="eyebrow">Ce que les habitants subissent</div>
+                <h2>Les communautés</h2>
+                <p>
+                    Mais le développement se mesure aussi à travers les conditions de vie.
+                    Lorsque les externalités sont mal gérées, ce sont les populations locales qui en absorbent le coût.
+                </p>
+                <div class="portrait">
+                    <video autoplay muted loop playsinline>
+                        <source src="images/community-life.mp4" type="video/mp4">
+                        Votre navigateur ne prend pas en charge la vidéo.
+                    </video>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <section class="section">
+<section class="section">
     <div class="container split externality-split">
-  
-      <div class="reveal externality-left">
-        <div class="externality-card-clean">
-            <div class="externality-summary-card">
-                <div class="summary-title">Constat clé</div>
-              
-                <ul class="summary-bullets">
-                    <li><strong>Croissance visible</strong></li>
-                    <li><strong>Coûts déplacés</strong></li>
-                    <li><strong>Développement freiné</strong></li>
-                  </ul>
+
+        <div class="reveal externality-left">
+            <div class="externality-card-clean">
+                <div class="externality-summary-card">
+                    <div class="summary-title">Constat clé</div>
+
+                    <ul class="summary-bullets">
+                        <li><strong>Croissance visible</strong></li>
+                        <li><strong>Coûts déplacés</strong></li>
+                        <li><strong>Développement freiné</strong></li>
+                    </ul>
 
 
-                  <div class="summary-note">
-                    Sans prise en compte des coûts réels, la croissance peut devenir contre-productive.
-                  </div>
-              </div>
+                    <div class="summary-note">
+                        Sans prise en compte des coûts réels, la croissance peut devenir contre-productive.
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  
-      <div class="reveal externality-right">
-        <div class="eyebrow">La clé d’interprétation</div>
-        <h2>Un projet peut croître… et pourtant ralentir le développement durable</h2>
-        <p>
-          Ce schéma est le cœur du diagnostic. Il montre que le problème ne réside pas seulement
-          dans l’existence d’une activité productive, mais dans la manière dont ses coûts sont pris en compte.
-        </p>
-        <p>
-          Lorsque les externalités environnementales et sociales ne sont pas correctement internalisées,
-          le projet produit de la croissance visible, mais il transfère aussi une partie de ses coûts vers les habitants et vers le territoire.
-        </p>
-        <p>
-          C’est là que le modèle devient contre-productif : au lieu de soutenir durablement le développement,
-          il peut fragiliser les conditions de vie et freiner les objectifs qu’il prétend servir.
-        </p>
-      </div>
-  
+
+        <div class="reveal externality-right">
+            <div class="eyebrow">La clé d’interprétation</div>
+            <h2>Un projet peut croître… et pourtant ralentir le développement durable</h2>
+            <p>
+                Ce schéma est le cœur du diagnostic. Il montre que le problème ne réside pas seulement
+                dans l’existence d’une activité productive, mais dans la manière dont ses coûts sont pris en compte.
+            </p>
+            <p>
+                Lorsque les externalités environnementales et sociales ne sont pas correctement internalisées,
+                le projet produit de la croissance visible, mais il transfère aussi une partie de ses coûts vers les
+                habitants et vers le territoire.
+            </p>
+            <p>
+                C’est là que le modèle devient contre-productif : au lieu de soutenir durablement le développement,
+                il peut fragiliser les conditions de vie et freiner les objectifs qu’il prétend servir.
+            </p>
+        </div>
+
     </div>
-  </section>
+</section>
 
-  
 
-  <section class="full-bleed">
+<section class="full-bleed">
     <div class="inner">
-      <div class="eyebrow" style="color:rgba(255,255,255,.86)">Ce que ce travail m’a appris</div>
-      <h2>Le développement durable dépend aussi de la méthode</h2>
-      <p>
-        Cette analyse m’a appris qu’un projet ne devient pas durable simplement parce qu’il mobilise
-        une ressource stratégique ou s’inscrit dans une logique de modernisation.
-        Sans conception adaptée, sans évaluation rigoureuse des impacts
-        et sans prise en compte des communautés, il peut générer davantage d’externalités
-        et freiner le développement durable.
-      </p>
+        <div class="eyebrow" style="color:rgba(255,255,255,.86)">Ce que ce travail m’a appris</div>
+        <h2>Le développement durable dépend aussi de la méthode</h2>
+        <p>
+            Cette analyse m’a appris qu’un projet ne devient pas durable simplement parce qu’il mobilise
+            une ressource stratégique ou s’inscrit dans une logique de modernisation.
+            Sans conception adaptée, sans évaluation rigoureuse des impacts
+            et sans prise en compte des communautés, il peut générer davantage d’externalités
+            et freiner le développement durable.
+        </p>
     </div>
-  </section>
+</section>
 
-  <section class="section alt">
+<section class="section alt">
     <div class="container">
-      <div class="reveal">
-        <div class="eyebrow">Pourquoi ce projet est pertinent ici</div>
-        <h2>Le lien avec Econoler</h2>
-        <p class="lead">
-          Ce travail résonne avec une idée que je trouve essentielle :
-          accompagner des organisations et des communautés vers un modèle plus durable
-          ne consiste pas seulement à viser un objectif de transformation,
-          mais à choisir une méthode de conception et d’évaluation capable de réduire les coûts cachés.
-        </p>
-        <p>
-          C’est aussi ainsi que je comprends la transition énergétique et la décarbonation :
-          non comme un simple changement de ressources ou d’infrastructures,
-          mais comme une exigence de rigueur, d’innovation et d’impact réel.
-        </p>
-        <p>
-          Ce projet illustre donc la manière dont j’aborde une question économique :
-          relier performance, externalités, communautés et durabilité dans une même analyse.
-        </p>
-      </div>
+        <div class="reveal">
+            <div class="eyebrow">Pourquoi ce projet est pertinent ici</div>
+            <h2>Le lien avec Econoler</h2>
+            <p class="lead">
+                Ce travail résonne avec une idée que je trouve essentielle :
+                accompagner des organisations et des communautés vers un modèle plus durable
+                ne consiste pas seulement à viser un objectif de transformation,
+                mais à choisir une méthode de conception et d’évaluation capable de réduire les coûts cachés.
+            </p>
+            <p>
+                C’est aussi ainsi que je comprends la transition énergétique et la décarbonation :
+                non comme un simple changement de ressources ou d’infrastructures,
+                mais comme une exigence de rigueur, d’innovation et d’impact réel.
+            </p>
+            <p>
+                Ce projet illustre donc la manière dont j’aborde une question économique :
+                relier performance, externalités, communautés et durabilité dans une même analyse.
+            </p>
+        </div>
     </div>
-  </section>
+</section>
 
-  <div class="footer">
+<div class="footer">
     Mariama Didé Diallo · Prototype narratif inspiré d’un travail de recherche en économie
-  </div>
+</div>
 
-  <script>
+<script>
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.16 });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, {threshold: 0.16});
 
     document.querySelectorAll('.reveal, .big-stat, .impact-card').forEach(el => observer.observe(el));
 
@@ -973,20 +1024,20 @@
     const visualNote = document.getElementById('visualNote');
 
     const stepObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          steps.forEach(s => s.classList.remove('active'));
-          entry.target.classList.add('active');
-          storyImage.src = entry.target.dataset.img;
-          visualTitle.textContent = entry.target.dataset.title;
-          visualNote.textContent = entry.target.dataset.note;
-        }
-      });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                steps.forEach(s => s.classList.remove('active'));
+                entry.target.classList.add('active');
+                storyImage.src = entry.target.dataset.img;
+                visualTitle.textContent = entry.target.dataset.title;
+                visualNote.textContent = entry.target.dataset.note;
+            }
+        });
     }, {
-      threshold: 0.55
+        threshold: 0.55
     });
 
     steps.forEach(step => stepObserver.observe(step));
-  </script>
+</script>
 </body>
 </html>
